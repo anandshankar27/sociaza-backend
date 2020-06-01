@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
-const bcrypt = require("bcryptjs")
+
 
 const userSchema = new Schema({
     name: {
@@ -28,20 +28,5 @@ const userSchema = new Schema({
 })
 
 const User = mongoose.model('User', userSchema)
+module.exports.User = User
 
-exports.createUser = async (data) => {
-    let existingUser = await User.findOne({ "email": data.email })
-    if (existingUser == null) {
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(data.password, salt)
-        const user = new User({
-            name: data.name,
-            email: data.email,
-            password: hashedPassword
-        })
-        return await user.save()
-    }
-    else {
-        return { "err": "Email is already registered." }
-    }
-} 
