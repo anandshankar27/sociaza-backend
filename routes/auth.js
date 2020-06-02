@@ -1,6 +1,7 @@
 const route = require("express").Router()
-const UserModel = require("./../models/user.model")
-const { registrationValidator, loginValidator }= require("./../utils/validator")
+const jwt = require("jsonwebtoken")
+const UserController = require("./../controllers/user.controller")
+const { registrationValidator, loginValidator } = require("./../utils/validator")
 
 route.post('/signup', async (req, res) => {
     let validation = await registrationValidator(req.body)
@@ -9,15 +10,14 @@ route.post('/signup', async (req, res) => {
         res.send(validation.error.details[0].message)
     }
     else {
-        let savedUser = await UserModel.createUser(req.body)
+        let savedUser = await UserController.createUser(req.body)
         if (savedUser.err) {
             res.send(savedUser.err)
         }
         else {
-            res.send(savedUser._id)
+            res.send(savedUser)
         }
     }
-
 })
 
 route.post('/signin', async (req, res) => {
@@ -27,16 +27,22 @@ route.post('/signin', async (req, res) => {
         res.send(validation.error.details[0].message)
     }
     else {
-        let authToken = await UserModel.checkUser(req.body)
-        if (savedUser.err) {
-            res.send(savedUser.err)
+        let validUser = await UserController.checkUser(req.body)
+        if (validUser.err == null) {
+            const authToken = jwt.sign({id: validUser._id}, process.env.TOKEN_SECRET)
+            res.header('auth-token', authToken).json({"user": validUser, "token": authToken})
         }
         else {
-            res.send(savedUser._id)
-        }
+            res.send(validUser.err)
+        } 
     }
 
 })
 
+route.get('/verify/:id', async (req, res) => {
+    let token = req.params.id
+    let verfied = await UserController.verifyUser(token)
+    res.send(verfied)
+})
 
 module.exports = route;
