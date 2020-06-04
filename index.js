@@ -5,7 +5,8 @@ require("dotenv").config()
 
 // Routes
 const auth = require("./routes/auth")
-const private = require("./routes/protected")
+const profile = require("./routes/profile")
+const feed = require("./routes/feed")
 
 // Connect to Database
 mongoose.connect(process.env.DB_URL,
@@ -23,7 +24,8 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes Middlewares
 app.use("/auth", auth)
-app.use("/private", private)
+app.use("/profile", profile)
+app.use("/feed", feed)
 
 // Server
 const port = 5000 || process.env.PORT
