@@ -22,7 +22,7 @@ exports.createUser = async (data) => {
     }
 } 
 
-exports.checkUser = async (data) => {
+exports.authenticateUser = async (data) => {
     const user = await User.findOne({"email": data.email})
     if (!user) return {"err" : {"email" : "Account doesn't exists."}}
 
