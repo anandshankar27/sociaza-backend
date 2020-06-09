@@ -11,6 +11,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    username: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true,
@@ -20,6 +24,15 @@ const userSchema = new Schema({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    verificationToken: {
+        type: String
+    },
+    displayPicture: {
+        type: String
+    },
+    posts: {
+        type: Array
     },
     date: {
         type: Date,

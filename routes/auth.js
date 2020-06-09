@@ -27,7 +27,7 @@ route.post('/signin', async (req, res) => {
         res.send(validation.error.details[0].message)
     }
     else {
-        let validUser = await UserController.checkUser(req.body)
+        let validUser = await UserController.authenticateUser(req.body)
         if (validUser.err == null) {
             const authToken = jwt.sign({id: validUser._id}, process.env.TOKEN_SECRET)
             res.header('auth-token', authToken).json({"user": validUser, "token": authToken})
@@ -39,8 +39,8 @@ route.post('/signin', async (req, res) => {
 
 })
 
-route.get('/verify/:id', async (req, res) => {
-    let token = req.params.id
+route.get('/verify/:token', async (req, res) => {
+    let token = req.params.token
     let verfied = await UserController.verifyUser(token)
     res.send(verfied)
 })

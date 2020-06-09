@@ -25,5 +25,4 @@ route.post('/', isAuthenticated, async (req, res) => {
     }
 })
 
-
 module.exports = route;
