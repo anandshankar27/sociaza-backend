@@ -35,5 +35,19 @@ const loginValidator = (data) => {
     return { error, value }
 }
 
+// Post Validator
+
+const postValidator = (data) => {
+    const Schema = joi.object({
+        caption: joi.string()
+            .min(1)
+            .max(200),
+        image: joi.allow()
+    })
+    const { error, value } = Schema.validate(data)
+    return { error, value }
+}
+
 module.exports.registrationValidator = registrationValidator
 module.exports.loginValidator = loginValidator
+module.exports.postValidator = postValidator
