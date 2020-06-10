@@ -18,7 +18,7 @@ module.exports.sendVerificationEmailtoUser = (user) => {
         html: `
             <h1>Hello ${user.name}</h1>
             <br>
-            <form method="POST" action="http://localhost:5000/auth/verify/${user.verificationToken}">
+            <form method="GET" action="http://localhost:5000/auth/verify/${user.verificationToken}">
                 <button name="secretToken"> Verify Your Account </button>
             </form>
             <a target="blank" href="http://localhost:5000/auth/verify/${user.verificationToken}">
