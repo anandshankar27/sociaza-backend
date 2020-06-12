@@ -39,10 +39,18 @@ exports.createPost = async (req) => {
 }
 
 exports.getAllPosts = async () => {
-    let posts = await Post.find().sort({ date: 'desc' })
+    let posts = await Post.find().sort({ date: -1 })
     return posts
 }
 
-exports.getPostsByUser = async (user) => {
+exports.getAllPostsByUser = async (id) => {
+    let user = await User.findOne({"_id": id})
+    if(!user) return {"err": "No user found"}
 
+    let posts = []
+    for(let i=0; i<user.posts.length; i++) {
+        let post = await Post.findById(user.posts[i])
+        posts.push(post)
+    }
+    return posts
 }
