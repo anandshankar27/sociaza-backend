@@ -8,6 +8,11 @@ route.get('/', isAuthenticated, async (req, res) => {
     res.send(posts)
 })
 
+route.get('/:user_id', isAuthenticated, async (req, res) => {
+    let posts = await PostController.getAllPostsByUser(req.params.user_id)
+    res.send(posts)
+})
+
 route.post('/', isAuthenticated, async (req, res) => {
     let validation = await postValidator(req.body)
 
