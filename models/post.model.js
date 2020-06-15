@@ -18,6 +18,10 @@ const postSchema = new Schema({
     date: {
         type: Date,
         default: Date.now()
+    },
+    time: {
+        type: Date,
+        default: new Date().getTime()
     }
 })
 

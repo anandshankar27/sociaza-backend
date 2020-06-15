@@ -25,14 +25,23 @@ const userSchema = new Schema({
         type: Boolean,
         default: false
     },
-    verificationToken: {
+    bio: {
         type: String
     },
     displayPicture: {
         type: String
     },
+    gender: {
+        type: String
+    },
+    dob: {
+        type: Date
+    },
     posts: {
         type: Array
+    },
+    verificationToken: {
+        type: String
     },
     date: {
         type: Date,
