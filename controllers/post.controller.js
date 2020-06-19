@@ -39,7 +39,7 @@ exports.createPost = async (req) => {
 }
 
 exports.getAllPosts = async () => {
-    let posts = await Post.find().sort({ date: -1 })
+    let posts = await Post.find()
     return posts
 }
 

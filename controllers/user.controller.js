@@ -14,7 +14,7 @@ exports.createUser = async (data) => {
             name: data.name,
             email: data.email,
             password: hashedPassword,
-            username: data.email.substring(0, data.email.indexOf('@')),
+            username: data.username,
             verificationToken: uniqueString()
         })
         await user.save()
