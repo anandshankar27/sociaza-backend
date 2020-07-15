@@ -6,8 +6,17 @@ const User = mongoose.model('User')
 const { sendVerificationEmailtoUser } = require("./../utils/nodemailer")
 
 exports.createUser = async (data) => {
-    const existingUser = await User.findOne({ "email": data.email })
-    if (existingUser == null) {
+    let errors = {}
+    const existingEmail = await User.findOne({ "email": data.email })
+    const existingUsername = await User.findOne({ "username": data.username })
+    if(existingEmail != null) {
+        errors.email = "Email is already registered."
+    }
+    if(existingUsername != null) {
+        errors.username = "Username already exists."
+    }
+
+    if (Object.keys(errors).length == 0) {
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(data.password, salt)
         const user = new User({
@@ -22,18 +31,18 @@ exports.createUser = async (data) => {
         return user
     }
     else {
-        return { "err": "Email is already registered." }
+        return errors
     }
 }
 
 exports.authenticateUser = async (data) => {
     const user = await User.findOne({ "email": data.email })
-    if (!user) return { "err": { "email": "Account doesn't exists." } }
+    if (!user) return { "errors": { "email": "Account doesn't exists." } }
 
     const passwordMatch = await bcrypt.compare(data.password, user.password)
-    if (!passwordMatch) return { "err": { "password": "Incorrect Password" } }
+    if (!passwordMatch) return { "errors": { "password": "Incorrect Password" } }
 
-    if (!user.isVerified) return { "err": { "verify": "Email not verified" } }
+    if (!user.isVerified) return { "errors": { "verify": "Email not verified" } }
     return user
 }
 

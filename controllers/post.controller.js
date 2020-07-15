@@ -13,15 +13,15 @@ exports.createPost = async (req) => {
         api_secret: process.env.CLOUD_API_SECRET
     })
     const data = {
-        image: req.body.image,
+        media: req.body.media,
     }
 
     try {
-        const cloudUpload = await cloudinary.uploader.upload(data.image)
+        const cloudUpload = await cloudinary.uploader.upload(data.media)
         const author = await User.findOne({ _id: req.user.id })
         const post = new Post({
             caption: req.body.caption,
-            image: cloudUpload.secure_url,
+            media: cloudUpload.secure_url,
             authorID: req.user.id,
             author: author.name
         })
@@ -44,11 +44,11 @@ exports.getAllPosts = async () => {
 }
 
 exports.getAllPostsByUser = async (id) => {
-    let user = await User.findOne({"_id": id})
-    if(!user) return {"err": "No user found"}
+    let user = await User.findOne({ "_id": id })
+    if (!user) return { "err": "No user found" }
 
     let posts = []
-    for(let i=0; i<user.posts.length; i++) {
+    for (let i = 0; i < user.posts.length; i++) {
         let post = await Post.findById(user.posts[i])
         posts.push(post)
     }
