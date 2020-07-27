@@ -1,4 +1,5 @@
 const joi = require("@hapi/joi")
+const { options } = require("@hapi/joi")
 
 // Registration Validator
 
@@ -6,16 +7,21 @@ const registrationValidator = (data) => {
     const Schema = joi.object({
         name: joi.string()
             .min(3)
+            .max(30)
             .required(),
         email: joi.string()
             .min(6)
+            .max(30)
             .email()
             .required(),
+        username: joi.string()
+            .regex(/^[a-zA-Z0-9_]{3,25}$/),
         password: joi.string()
             .min(8)
+            .max(30)
             .required()
     })
-    const { error, value } = Schema.validate(data)
+    const { error, value } = Schema.validate(data, { abortEarly: false })
     return { error, value }
 }
 
@@ -25,13 +31,15 @@ const loginValidator = (data) => {
     const Schema = joi.object({
         email: joi.string()
             .min(6)
+            .max(30)
             .email()
             .required(),
         password: joi.string()
-            .min(6)
+            .min(8)
+            .max(30)
             .required()
     })
-    const { error, value } = Schema.validate(data)
+    const { error, value } = Schema.validate(data, { abortEarly: false })
     return { error, value }
 }
 
@@ -42,7 +50,7 @@ const postValidator = (data) => {
         caption: joi.string()
             .min(1)
             .max(200),
-        image: joi.allow()
+        media: joi.allow()
     })
     const { error, value } = Schema.validate(data)
     return { error, value }
