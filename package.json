@@ -1,22 +1,21 @@
 {
-  "name": "sociaza-api",
+  "name": "sociaza-backend",
   "version": "1.0.0",
-  "description": "backend for sociaza, cool social media platform",
-  "main": "index.js",
-  "author": "Anand Shankar",
+  "description": "REST API for Sociaza Project",
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node app.js"
   },
+  "author": "Anand Shankar",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
-    "cloudinary": "^1.22.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.14",
-    "nodemailer": "^6.4.8",
+    "mongoose": "^5.9.25",
     "unique-string": "^2.0.0"
   },
   "devDependencies": {
