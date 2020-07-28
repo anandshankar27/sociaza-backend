@@ -16,8 +16,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedT
 mongoose.connection.once('open', () => console.log('Connected to DB'))
 
 const users = require('./routes/users')
+const posts = require('./routes/posts')
 
 app.use('/users', users)
+app.use('/posts', posts)
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`)
