@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema({
     dp: { type: String, default: `https://res.cloudinary.com/anandshankar/image/upload/v1595807127/sociaza/929493_t2p0f1.svg` },
     password: { type: String, required: true, minlength: 8 },
     isVerified: { type: Boolean, default: true },
-    posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    posts: { type: Number, default: 0 },
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    verificationToken: {type: String, required: true}
+    verificationToken: { type: String, required: true }
 }, {
     timestamps: true
 })

@@ -43,7 +43,7 @@ exports.createUser = async (req, res) => {
             })
             await user.save()
             // sendVerificationEmailtoUser(user)
-            res.json(user)
+            res.json('Account Created')
         }
     }
 }
@@ -107,8 +107,12 @@ exports.getUserProfile = async (req, res) => {
 }
 
 exports.updateUser = async (req, res) => {
-
     let filter = { 'username': req.params.username }
+
+    if (req.user.username !== filter.username) {
+        return res.status(400).json({ 'error': 'Access Denied' })
+    }
+
     let user = await User.findOne(filter)
 
     if (user === null) return res.status(400).json({ 'error': 'No user found' })
@@ -118,16 +122,24 @@ exports.updateUser = async (req, res) => {
     user.dp = req.body.dp || user.dp
 
     let updatedUser = await user.save()
-    return res.json(updatedUser)
+    return res.json('User Updated')
 }
 
 exports.updatePassword = async (req, res) => {
+    let filter = { 'username': req.params.username }
 
+    if (req.user.username !== filter.username) {
+        return res.status(400).json({ 'error': 'Access Denied' })
+    }
 }
 
 exports.deleteUser = async (req, res) => {
     let filter = { 'username': req.params.username }
+
+    if (req.user.username !== filter.username) {
+        return res.status(400).json({ 'error': 'Access Denied' })
+    }
     User.findOneAndDelete(filter)
-        .then(user => res.json(user))
+        .then(user => res.json('Account Deleted'))
         .catch(err => res.status(400).json('Error ->' + err))
 }
